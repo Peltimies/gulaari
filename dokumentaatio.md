@@ -31,21 +31,7 @@
 3. Kehitysympäristön muutokset
     - Muokattu package.json start-skriptiä: `"start": "ng serve --o"`
       - --o lippu avaa selaimen automaattisesti
-4. Tyylimäärittelyt (21.3.2025)
-    - Tumma teema:
-      - Taustaväri: #2A2B2E (tumma harmaa)
-      - Kortin otsikkoalue: #383A3F (hieman vaaleampi harmaa)
-      - Kortin reunat: #383A3F
-      - Tekstin väri: #E1E1E1 (vaalea harmaa)
-      - Toimintopainikkeet: #4CAF50 (Material Design vihreä)
-    - Tyylitiedosto: src/styles.css
-    - Komponenttien tyylit:
-      - Body: tumma tausta
-      - Kortti: tumma tausta, vaaleammat reunat
-      - Kortin otsikko: vaaleampi tausta
-      - Kortin teksti: vaalea väri luettavuuden parantamiseksi
-      - Painikkeet: mukautetut värit ja hover-efektit
-5. Modal-toiminnallisuus (21.3.2025)
+4. Modal-toiminnallisuus (21.3.2025)
     - Lisätty Bootstrap modal -komponentti
     - Toteutettu openModal() -funktio app.component.ts:ssä
     - Yhdistetty "Add New" -painike modaalin avaamiseen
@@ -61,11 +47,15 @@
   - Sisältää Settlement Portal -käyttöliittymän perusrakenteen
   - Hyödyntää Bootstrap-komponentteja:
     - Container layout
-    - Card-komponentti (mukautettu tumma teema)
-    - Button-komponentit (mukautetut värit)
+    - Card-komponentti
+    - Button-komponentit
     - Modal-komponentti uusien tietojen lisäämiseen
   - Toiminnallisuudet:
     - openModal(): avaa modaalin uuden tiedon lisäämistä varten
+    - closeModal(): sulkee modaalin ja tyhjentää lomakkeen
+    - saveItem(): tallentaa kohteen localStorageen
+    - deleteItem(): poistaa kohteen
+    - onEdit(): avaa kohteen muokkaustilassa
 
 ### 3.2 Palvelut
 - Item Service
@@ -81,6 +71,15 @@
   - name: merkkijono
   - description: merkkijono
   - price: numeroarvo
+- Tietojen tallennus:
+  - Käytetään selaimen localStorage-rajapintaa
+  - Tallennetaan JSON-muodossa
+  - Tietorakenne:
+    - items: Item[]
+  - Toiminnot:
+    - Lataus: ngOnInit hakee tallennetut kohteet
+    - Tallennus: saveItem tallentaa uudet ja muokatut kohteet
+    - Poisto: deleteItem poistaa kohteen
 
 ## 5. Käyttöliittymä
 ### 5.1 Rakenne
@@ -94,6 +93,8 @@
   - Avautuu "Add New" -painikkeesta
   - Header, body ja footer -osiot
   - Sulkemispainike oikeassa yläkulmassa
+- Lomake kohteen tietojen syöttämiseen
+  - Validointi ja virheilmoitukset
 
 ### 5.2 Komponentit
 - Card
@@ -113,6 +114,19 @@
   - Modal:
     - Sulkemispainike (btn-close)
     - Toimintopainikkeet (btn-danger)
+
+### 5.3 Interaktiot
+1. Uuden kohteen lisäys:
+   - "Add New" avaa modaalin
+   - Lomakkeen täyttö
+   - Tallennus tai peruutus
+2. Kohteen muokkaus:
+   - Edit-painike avaa modaalin
+   - Esitäytetty lomake
+   - Tallennus päivittää tiedot
+3. Kohteen poisto:
+   - Delete-painike
+   - Välitön poisto listalta ja tallennuksesta
 
 ## 6. Testaus
 - Testausmenetelmät

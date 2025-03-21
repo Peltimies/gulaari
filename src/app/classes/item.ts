@@ -4,10 +4,10 @@ export class Item {
   description: string;
   price: number;
 
-  constructor(id: number, name: string, description: string, price: number) {
-    this.id = id;
-    this.name = name;
-    this.description = description;
-    this.price = price;
+  constructor() {
+    this.id = 0;
+    this.name = '';
+    this.description = '';
+    this.price = 0;
   }
 }

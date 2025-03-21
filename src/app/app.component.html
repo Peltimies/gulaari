@@ -7,18 +7,31 @@
       <button class="btn btn-outline-success" (click)="openModal()">Add New</button>
     </div>
   </div>
-  <div class="row" *ngFor="let item of itemList">
-    <div class="col-3">
+
+  <!-- Show this when there are items -->
+  <div class="row" *ngIf="itemList.length > 0">
+    <div class="col-3 mb-3" *ngFor="let item of itemList">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">{{item.name}}</h5>
           <p class="card-text">{{item.description}}</p>
+          <p class="card-text">€{{item.price}}</p>
+          <div class="d-flex gap-2">
+            <button class="btn btn-outline-success" (click)="onEdit(item)">Edit</button>
+            <button class="btn btn-danger" (click)="deleteItem(item)">Delete</button>
+          </div>
         </div>
       </div>
     </div>
   </div>
-</div>
 
+  <!-- Show this when there are no items -->
+  <div class="row" *ngIf="itemList.length === 0">
+    <div class="col-12 text-center mt-4">
+      <p class="text-muted">No items yet. Click "Add New" to create one!</p>
+    </div>
+  </div>
+</div>
 
 <!-- The Modal -->
 <div class="modal" id="myModal">
@@ -52,7 +65,8 @@
       <!-- Modal footer -->
       <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-bs-dismiss="modal" (click)="closeModal()">Close</button>
-        <button type="button" class="btn btn-success" (click)="saveItem()">Add</button>
+        <div *ngIf="itemObj.id == 0"><button type="button" class="btn btn-primary" (click)="saveItem()">Add</button></div>
+        <div *ngIf="itemObj.id != 0"><button type="button" class="btn btn-success" (click)="updateItem()">Update</button></div>
       </div>
 
     </div>
