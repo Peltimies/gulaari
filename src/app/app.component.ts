@@ -62,8 +62,9 @@ export class AppComponent implements OnInit {
   deleteItem(item: Item) {
     const isDeleted = confirm('Are you sure you want to delete this item?');
     if (isDeleted) {
-      const currentRecord = this.itemList.findIndex(item => item.id === this.itemObj.id);
+      const currentRecord = this.itemList.findIndex(i => i.id === item.id);
       this.itemList.splice(currentRecord, 1);
+      // Muistetaan tallentaa myös localstorageen tämä muutos
       localStorage.setItem('items', JSON.stringify(this.itemList));
     }
   }
