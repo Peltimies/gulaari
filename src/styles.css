@@ -3,7 +3,75 @@ body {
     background-color: #2A2B2E;
 }
 
-.card-header {
-    background-color: #383A3F !important;
+.card {
+    background-color: #2A2B2E;
+    border: 1px solid #383A3F;
+}
 
+.card-header {
+    background-color: #383A3F;
+    border-bottom: 1px solid #383A3F;
+}
+
+.card-body {
+    color: #E1E1E1;
+}
+
+.btn-outline-success {
+    color: #4CAF50;
+    border-color: #4CAF50;
+}
+
+.btn-outline-success:hover {
+    background-color: #4CAF50;
+    color: #E1E1E1;
+}
+
+/* Modal styling */
+.modal-content {
+    background-color: #2A2B2E;
+    border: 1px solid #383A3F;
+}
+
+.modal-header {
+    background-color: #383A3F;
+    border-bottom: 1px solid #383A3F;
+}
+
+.modal-title {
+    color: #E1E1E1;
+}
+
+.modal-body {
+    color: #E1E1E1;
+}
+
+.modal-footer {
+    border-top: 1px solid #383A3F;
+}
+
+.btn-close {
+    filter: invert(1) grayscale(100%) brightness(200%);
+}
+
+/* Form styling */
+.form-label {
+    color: #E1E1E1;
+}
+
+.form-control {
+    background-color: #383A3F;
+    border: 1px solid #4A4D52;
+    color: #E1E1E1;
+}
+
+.form-control:focus {
+    background-color: #383A3F;
+    border-color: #4CAF50;
+    color: #E1E1E1;
+    box-shadow: 0 0 0 0.25rem rgba(76, 175, 80, 0.25);
+}
+
+.form-control::placeholder {
+    color: #8A8D91;
 }
