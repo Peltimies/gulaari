@@ -54,7 +54,8 @@
     - openModal(): avaa modaalin uuden tiedon lisäämistä varten
     - closeModal(): sulkee modaalin ja tyhjentää lomakkeen
     - saveItem(): tallentaa kohteen localStorageen
-    - deleteItem(): poistaa kohteen
+    - updateItem(): päivittää olemassa olevan kohteen
+    - deleteItem(): poistaa kohteen vahvistuksen jälkeen
     - onEdit(): avaa kohteen muokkaustilassa
 
 ### 3.2 Palvelut
@@ -62,7 +63,9 @@
   - Käyttötarkoitus: hallinoida sovelluksen tietojen tallennusta ja hakua
   - Toiminnallisuudet:
     - addItem(): lisää uuden kohteen sovelluksen tietoihin
+    - updateItem(): päivittää olemassa olevan kohteen
     - getItems(): hakee kaikki sovelluksen kohteet
+    - deleteItem(): poistaa kohteen vahvistuksen jälkeen
 
 ## 4. Tietokannat ja rajapinnat
 - Sovellus käyttää paikallista tallennustilaa (localStorage) tietojen tallentamiseen
@@ -78,8 +81,8 @@
     - items: Item[]
   - Toiminnot:
     - Lataus: ngOnInit hakee tallennetut kohteet
-    - Tallennus: saveItem tallentaa uudet ja muokatut kohteet
-    - Poisto: deleteItem poistaa kohteen
+    - Tallennus: saveItem ja updateItem tallentavat muutokset
+    - Poisto: deleteItem poistaa kohteen vahvistuksen jälkeen
 
 ## 5. Käyttöliittymä
 ### 5.1 Rakenne
