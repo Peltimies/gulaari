@@ -15,6 +15,7 @@
   - Modal-komponentti
   - Grid-järjestelmä
   - Kortit ja painikkeet
+  - Dark theme
 - TypeScript 5.4.2
 - RxJS 7.8.0
 
@@ -131,22 +132,39 @@
    - Delete-painike
    - Välitön poisto listalta ja tallennuksesta
 
+### 5.4 Teema
+- Bootstrap dark theme
+  - Globaali määritys index.html:ssä (data-bs-theme="dark")
+  - Tumma tausta ja kontrastit
+  - Yhtenäinen värimaailma kaikissa komponenteissa
+- Väripaletti:
+  - Taustaväri: Bootstrap dark theme
+  - Kortit/Modaalit: Bootstrap dark components
+  - Tekstit: Bootstrap dark theme text
+  - Painikkeet:
+    - Primary: Bootstrap sininen (uusi)
+    - Success: Material vihreä (muokkaus)
+    - Danger: Bootstrap punainen (poisto)
+
+### 5.5 Saavutettavuus
+- Korkea kontrasti
+  - Tumma tausta
+  - Vaalea teksti
+  - Selkeät painikkeet
+- Selkeä visuaalinen hierarkia
+- Johdonmukaiset fokustilat
+- Luettava typografia
+
 ## 6. Testaus
 - Testausmenetelmät
 - Testitapaukset
 
 ## 7. Jatkokehitysideat
-- Korttinäkymän tietojen dynaaminen lataaminen
-- Uuden tiedon lisäämistoiminnon toteutus
-  - Modal-lomakkeen kenttien lisääminen
-  - Tietojen validointi
-  - Tallennustoiminnallisuus
-- Värimaailman laajentaminen ja yhtenäistäminen
-  - Aksenttivärien lisääminen muihin toimintoihin
-  - Hover-tilojen yhtenäistäminen
-  - Painikkeiden värimaailman laajentaminen eri toimintoihin
-  - Modal-dialogin tyylittely tumman teeman mukaiseksi
-- [Muut kehitysideat]
+- Teeman vaihtaja (vaalea/tumma)
+- Kehittyneemmät animaatiot
+- Lisää saavutettavuusparannuksia
+- Hakutoiminnallisuus
+- Lajittelu ja suodatus
 
 ## 8. Lähteet
 - [Käytetyt lähteet ja materiaalit]

@@ -1,88 +1,59 @@
-import { Component, OnInit } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
-import { Item } from './classes/item';
+import { Component, OnInit, AfterViewInit, NgZone } from '@angular/core';
+import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NgFor, NgIf } from '@angular/common';
-
+import { CrudService } from './services/services/crud.service';
+import { Item } from './classes/item';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, FormsModule, NgFor, NgIf],
+  imports: [CommonModule, FormsModule],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css'
+  styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit {
-  itemObj: Item = new Item();
-  itemList: Item[] = [];
-
-
-  openModal() {
-   
-    const modal = document.getElementById('myModal');
-    if(modal != null) {
-      modal.style.display = 'block';
-    }
-  }
+export class AppComponent implements OnInit, AfterViewInit {
+  constructor(
+    public crudService: CrudService,
+    private ngZone: NgZone
+  ) {}
 
   ngOnInit(): void {
-    const isLocalPresent = localStorage.getItem('items');
-    if(isLocalPresent != null) {
-      this.itemList = JSON.parse(isLocalPresent);
-    }
+    this.crudService.loadItems();
   }
 
-  closeModal() {
-    this.itemObj = new Item();
-    const modal = document.getElementById('myModal');
-    if(modal != null) {
-      modal.style.display = 'none';
-    }
+  ngAfterViewInit(): void {
+    // Initialize modals after view is ready
+    this.ngZone.runOutsideAngular(() => {
+      // Small delay to ensure DOM is fully ready
+      setTimeout(() => {
+        this.ngZone.run(() => {
+          this.crudService.initializeModals();
+        });
+      }, 0);
+    });
   }
 
-  saveItem() {
-
-    const isLocalPresent = localStorage.getItem('items');
-    if(isLocalPresent != null) {
-      
-      const oldArr = JSON.parse(isLocalPresent);
-      this.itemObj.id = this.itemList.length + 1;
-      oldArr.push(this.itemObj);
-      this.itemList = oldArr;
-      localStorage.setItem('items', JSON.stringify(oldArr));
-    } else {
-      const newArr = [];
-      newArr.push(this.itemObj);
-      this.itemList = newArr;
-      localStorage.setItem('items', JSON.stringify(newArr));
-    }
-    this.closeModal();
+  openModal(): void {
+    this.crudService.openModal();
   }
 
-  deleteItem(item: Item) {
-    const isDeleted = confirm('Are you sure you want to delete this item?');
-    if (isDeleted) {
-      const currentRecord = this.itemList.findIndex(i => i.id === item.id);
-      this.itemList.splice(currentRecord, 1);
-      // Muistetaan tallentaa myös localstorageen tämä muutos
-      localStorage.setItem('items', JSON.stringify(this.itemList));
-    }
+  closeModal(): void {
+    this.crudService.closeModal();
   }
 
-  onEdit(item: Item) {
-    this.itemObj = item;
-    this.openModal(); 
+  saveItem(): void {
+    this.crudService.saveItem();
   }
 
-  updateItem() {
-    const currentRecord = this.itemList.find(item => item.id === this.itemObj.id);
-    if(currentRecord != undefined) {
-      currentRecord.name = this.itemObj.name;
-      currentRecord.description = this.itemObj.description;
-      currentRecord.price = this.itemObj.price;
-    }
-    // Muistetaan tallentaa myös localstorageen tämä muutos
-    localStorage.setItem('items', JSON.stringify(this.itemList));
-    this.closeModal();
+  updateItem(): void {
+    this.crudService.updateItem();
+  }
+
+  deleteItem(item: Item): void {
+    this.crudService.deleteItem(item);
+  }
+
+  onEdit(item: Item): void {
+    this.crudService.onEdit(item);
   }
 }
