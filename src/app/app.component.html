@@ -7,17 +7,15 @@
       <button class="btn btn-outline-success" (click)="openModal()">Add New</button>
     </div>
   </div>
-  <div class="row">
-    @for (item of itemList; track $index) {<div class="col-3">
+  <div class="row" *ngFor="let item of itemList">
+    <div class="col-3">
       <div class="card">
         <div class="card-body">
           <h5 class="card-title">{{item.name}}</h5>
           <p class="card-text">{{item.description}}</p>
-
         </div>
       </div>
-    </div>}
-    
+    </div>
   </div>
 </div>
 

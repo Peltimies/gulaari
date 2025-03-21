@@ -23,16 +23,15 @@
     - Lisätty angular.jsoniin:
       - styles: "node_modules/bootstrap/dist/css/bootstrap.min.css"
       - scripts: "node_modules/bootstrap/dist/js/bootstrap.min.js"
-2. ~~Lisättiin Products-komponentti~~ (Poistettu)
-3. Toteutettu Settlement Portal -käyttöliittymä (21.3.2025)
+2. Toteutettu Settlement Portal -käyttöliittymä (21.3.2025)
     - Lisätty Bootstrap-tyylitelty perusnäkymä
     - Käytetty container, row ja col -komponentteja asetteluun
     - Lisätty korttinäkymä tietojen esittämiseen
     - Lisätty "Add New" -painike uusien tietojen lisäämistä varten
-4. Kehitysympäristön muutokset
+3. Kehitysympäristön muutokset
     - Muokattu package.json start-skriptiä: `"start": "ng serve --o"`
       - --o lippu avaa selaimen automaattisesti
-5. Tyylimäärittelyt (21.3.2025)
+4. Tyylimäärittelyt (21.3.2025)
     - Tumma teema:
       - Taustaväri: #2A2B2E (tumma harmaa)
       - Kortin otsikkoalue: #383A3F (hieman vaaleampi harmaa)
@@ -46,7 +45,7 @@
       - Kortin otsikko: vaaleampi tausta
       - Kortin teksti: vaalea väri luettavuuden parantamiseksi
       - Painikkeet: mukautetut värit ja hover-efektit
-6. Modal-toiminnallisuus (21.3.2025)
+5. Modal-toiminnallisuus (21.3.2025)
     - Lisätty Bootstrap modal -komponentti
     - Toteutettu openModal() -funktio app.component.ts:ssä
     - Yhdistetty "Add New" -painike modaalin avaamiseen
@@ -69,13 +68,19 @@
     - openModal(): avaa modaalin uuden tiedon lisäämistä varten
 
 ### 3.2 Palvelut
-- [Palvelun nimi]
-  - Käyttötarkoitus
-  - Toiminnallisuudet
+- Item Service
+  - Käyttötarkoitus: hallinoida sovelluksen tietojen tallennusta ja hakua
+  - Toiminnallisuudet:
+    - addItem(): lisää uuden kohteen sovelluksen tietoihin
+    - getItems(): hakee kaikki sovelluksen kohteet
 
 ## 4. Tietokannat ja rajapinnat
-- [Käytetyt tietokannat/rajapinnat]
-- Tietorakenteet
+- Sovellus käyttää paikallista tallennustilaa (localStorage) tietojen tallentamiseen
+- Sovelluksen tietorakenteena käytetään Item-luokkaa, joka sisältää seuraavat ominaisuudet:
+  - id: numeroarvo
+  - name: merkkijono
+  - description: merkkijono
+  - price: numeroarvo
 
 ## 5. Käyttöliittymä
 ### 5.1 Rakenne
