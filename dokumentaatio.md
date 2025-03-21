@@ -1,7 +1,7 @@
 # Projektin dokumentaatio
 
 ## 1. Projektin yleiskuvaus
-- Projektin nimi: Gulaari
+- Projektin nimi: Gulaari (Settlement Portal)
 - Tekijä: [Tekijän nimi]
 - Päivämäärä: 21.3.2025
 - Versio: 0.0.0
@@ -20,18 +20,25 @@
     - Lisätty angular.jsoniin:
       - styles: "node_modules/bootstrap/dist/css/bootstrap.min.css"
       - scripts: "node_modules/bootstrap/dist/js/bootstrap.min.js"
-2. Lisättiin Products-komponentti (ng g c products --skip-tests)
-    - Komponentti luotu hakemistoon src/app/components/products
-    - Lisätty app.component.ts tiedostoon import ja imports-taulukkoon
-    - Lisätty app.component.html tiedostoon <app-products></app-products>
-    - Komponentti näkyy nyt sovelluksen pääsivulla osoitteessa http://localhost:4200
+2. ~~Lisättiin Products-komponentti~~ (Poistettu)
+3. Toteutettu Settlement Portal -käyttöliittymä (21.3.2025)
+    - Lisätty Bootstrap-tyylitelty perusnäkymä
+    - Käytetty container, row ja col -komponentteja asetteluun
+    - Lisätty korttinäkymä tietojen esittämiseen
+    - Lisätty "Add New" -painike uusien tietojen lisäämistä varten
+4. Kehitysympäristön muutokset
+    - Muokattu package.json start-skriptiä: `"start": "ng serve --o"`
+      - --o lippu avaa selaimen automaattisesti
 
 ## 3. Sovelluksen rakenne
 ### 3.1 Komponentit
-- Products
-  - Tuotteiden näyttämiseen tarkoitettu komponentti
-  - Sijainti: src/app/components/products
-  - Tila: Perusrakenne luotu, sisältää oletussisällön
+- App Component
+  - Sovelluksen pääkomponentti
+  - Sisältää Settlement Portal -käyttöliittymän perusrakenteen
+  - Hyödyntää Bootstrap-komponentteja:
+    - Container layout
+    - Card-komponentti
+    - Button-komponentit
 
 ### 3.2 Palvelut
 - [Palvelun nimi]
@@ -43,15 +50,28 @@
 - Tietorakenteet
 
 ## 5. Käyttöliittymä
-- Käyttöliittymän rakenne
-- Näkymät ja toiminnallisuudet
+### 5.1 Rakenne
+- Yläpalkki
+  - Otsikko "Settlement Portal"
+  - "Add New" -painike oikealla
+- Sisältöalue
+  - Korttinäkymä tietojen esittämiseen
+  - Responsiivinen asettelu Bootstrap grid -järjestelmällä
+
+### 5.2 Komponentit
+- Card
+  - Otsikko
+  - Sisältöteksti
+  - Toimintopainike
 
 ## 6. Testaus
 - Testausmenetelmät
 - Testitapaukset
 
 ## 7. Jatkokehitysideat
-- [Lista mahdollisista kehitysideoista]
+- Korttinäkymän tietojen dynaaminen lataaminen
+- Uuden tiedon lisäämistoiminnon toteutus
+- [Muut kehitysideat]
 
 ## 8. Lähteet
 - [Käytetyt lähteet ja materiaalit]

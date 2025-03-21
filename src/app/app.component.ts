@@ -11,4 +11,11 @@ import { RouterOutlet } from '@angular/router';
 })
 export class AppComponent {
   title = 'gulaari';
+
+  openModal() {
+    const modal = document.getElementById('myModal');
+    if(modal != null) {
+      modal.style.display = 'block';
+    }
+  }
 }

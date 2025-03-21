@@ -1,1 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
+body {
+    background-color: #2A2B2E;
+}
+
+.card-header {
+    background-color: #383A3F !important;
+
+}
