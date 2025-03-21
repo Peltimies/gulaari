@@ -5,11 +5,11 @@ import { CrudService } from './services/services/crud.service';
 import { Item } from './classes/item';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [CommonModule, FormsModule],
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+    selector: 'app-root',
+    standalone: true,
+    imports: [CommonModule, FormsModule],
+    templateUrl: './app.component.html',
+    styleUrls: ['./app.component.css']
 })
 export class AppComponent implements OnInit, AfterViewInit {
   constructor(
