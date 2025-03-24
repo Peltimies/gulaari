@@ -1,13 +1,13 @@
-export class Item {
+export class Quest {
   id: string;
   name: string;
   description: string;
-  price: number;
+  reward: number;
 
   constructor() {
     this.id = '';
     this.name = '';
     this.description = '';
-    this.price = 0;
+    this.reward = 0;
   }
 }

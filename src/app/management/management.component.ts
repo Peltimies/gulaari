@@ -4,13 +4,12 @@ import { FormsModule } from '@angular/forms';
 import { CrudService } from '../services/services/crud.service';
 import { Item } from '../classes/item';
 
-
 @Component({
   selector: 'app-management',
   standalone: true,
   imports: [CommonModule, FormsModule],
   templateUrl: './management.component.html',
-  styleUrl: './management.component.css'
+  styleUrls: ['./management.component.css']
 })
 export class ManagementComponent implements OnInit, AfterViewInit {
   constructor(
@@ -19,9 +18,8 @@ export class ManagementComponent implements OnInit, AfterViewInit {
   ) {}
 
   ngOnInit(): void {
-    this.crudService.loadItems();
+    // Items are automatically loaded by the CRUD service constructor
   }
-
 
   ngAfterViewInit(): void {
     // Initialize modals after view is ready

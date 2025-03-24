@@ -1,111 +1,53 @@
 import { Injectable } from '@angular/core';
-import { Item } from '../../classes/item';
+import { InMemoryDbService, Item } from '../in-memory-db.service';
+import { Observable } from 'rxjs';
 
-// Modaali-rajapinta määrittelee Bootstrap-modaalin metodit
-interface Modal {
-  show: () => void;
-  hide: () => void;
-  dispose: () => void;
-}
-
-
- /** 1. Palvelun Määrittely
-  * Tämä määrittelee palvelun toimintoja
-  * itemObj: On Item-tyyppinen olio, joka alustetaan tyhjäksi. Tänne tulee käsiteltävä kohde (uusi tai muokattava).
-  * itemList: kaikki kohteet
-  * itemToDelete: poistettava kohde
-  * Kaksi modaalia: lomake ja poistovahvistus
-  * @returns void
-  */
 @Injectable({
   providedIn: 'root'
 })
 export class CrudService {
-  itemObj: Item = new Item(); // Käsiteltävä kohde (uusi tai muokattava)
-  itemList: Item[] = []; // Kaikki kohteet
-  itemToDelete: Item | null = null; // Poistettava kohde
-  private formModal: Modal | null = null; // Lomakemodaali
-  private deleteModal: Modal | null = null; // Poistomodaali
+  itemList: Item[] = [];
+  itemObj: Item = {
+    id: '',
+    name: '',
+    description: '',
+    price: 0
+  };
+  itemToDelete: Item | null = null;
 
-  constructor() {
+  // Bootstrap modals
+  formModal: any;
+  deleteModal: any;
+
+  constructor(private dbService: InMemoryDbService) {
     this.loadItems();
   }
 
-  
-  /** 2. Modaalien alustus
-   * Alustaa modaalit
-   * Tarkistaa Bootstrap-kirjaston saatavuuden
-   * Siivoaa vanhat modaalit muistivuotojen estämiseksi
-   * Hakee modaalielementit DOM:sta
-   * Luo uudet modaali-instanssit turvallisilla asetuksilla
-   * @returns void
-   */
-  initializeModals(): void {
-    try {
-      if (typeof window === 'undefined' || !(window as any).bootstrap) { // Tarkistaa, että Bootstrap on ladattu
-        console.error('Bootstrap is not loaded');
-        return;
-      }
-
-      // Vanhojen modaalien siivous
-      // Tämä tekee sen, että vanha modaali ei jää käyttöliittymään kummittelemaan  
-      this.formModal?.dispose(); // Jos formModal (hallinnoi lisäystä/muokkausta) on null, eli ei olemassa = dispose()-metodia ei kutsuta.
-      this.deleteModal?.dispose(); // Jos deleteModal (hallinnoi poistoa) on null, eli ei olemassa = dispose()-metodia ei kutsuta.
-
-      const formElement = document.getElementById('myModal'); // Hakee lomakemodalin elementin
-      const deleteElement = document.getElementById('deleteModal'); // Hakee poistomodalin elementin
-
-      if (!formElement || !deleteElement) {
-        console.error('Modal elements not found'); // Tarkistaa, että modaalielementit löytyvät
-        return;
-      }
-
-      // Uusien modaalien alustus
-      this.formModal = new (window as any).bootstrap.Modal(formElement, { // Luo uuden lomakemodalin-instanssin
-        keyboard: true,
-        backdrop: 'static'
-      });
-
-      this.deleteModal = new (window as any).bootstrap.Modal(deleteElement, { // Luo uuden poistomodalin-instanssin
-        keyboard: true,
-        backdrop: 'static'
-      });
-    } catch (error) {
-      console.error('Error initializing modals:', error); // Tarkistaa, että modaalit alustuvat
-    }
-  }
-
-  /** 3. CRUD-operaatiot
-   * loadItems: Lataa kohteet localStoragesta
-   * saveItem: Tallentaa uuden kohteen, generoi ID:n
-   * updateItem: Päivittää olemassa olevan kohteen
-   * deleteItem: Poistaa kohteen localStoragestä
-   * onEdit: Avaa muokkausmodalin
-   * updateItem: Päivittää olemassa olevan kohteen
-   * @returns void
-   */
-  loadItems(): void {
-    const localData = localStorage.getItem('items');
-    if (localData != null) {
-      this.itemList = JSON.parse(localData);
-    }
+  private loadItems(): void {
+    this.dbService.getItems().subscribe(items => {
+      this.itemList = items;
+    });
   }
 
   saveItem(): void {
     console.log('Saving item:', this.itemObj);
-    const isLocalPresent = localStorage.getItem('items'); // Tarkistaa, että localStorage on olemassa
-    if (isLocalPresent != null) { // Jos localStorage on olemassa, tallentaa uuden kohteen
-      const oldArr = JSON.parse(isLocalPresent); // oldArr, eli taulukko joka sisältää vanhat kohteet
-      this.itemObj.id = this.getNextId(oldArr); // Generoi uuden ID:n
-      oldArr.push(this.itemObj); // oldArr lisätään itemObj, joka on uusi kohde
-      localStorage.setItem('items', JSON.stringify(oldArr));
+    if (this.itemObj.id) {
+      // Update existing item
+      this.dbService.updateItem(this.itemObj.id, {
+        name: this.itemObj.name,
+        description: this.itemObj.description,
+        price: this.itemObj.price
+      });
     } else {
-      const newArr = [];
-      this.itemObj.id = 1;
-      newArr.push(this.itemObj);
-      localStorage.setItem('items', JSON.stringify(newArr));
+      // Add new item
+      this.dbService.addItem({
+        name: this.itemObj.name,
+        description: this.itemObj.description,
+        price: this.itemObj.price
+      });
     }
-    this.loadItems();
+    
+    this.resetForm();
     this.closeModal();
   }
 
@@ -114,30 +56,41 @@ export class CrudService {
     this.openDeleteModal(item);
   }
 
-  onEdit(item: Item): void {
-    this.itemObj = {...item}; // Create a copy to prevent direct reference
-    this.openModal();
+  confirmDelete(): void {
+    if (this.itemToDelete) {
+      this.dbService.deleteItem(this.itemToDelete.id);
+      this.closeDeleteModal();
+      this.itemToDelete = null;
+    }
   }
 
   updateItem(): void {
     console.log('Updating item:', this.itemObj);
-    const currentRecord = this.itemList.find(item => item.id === this.itemObj.id); // Etsii olemassa olevan kohden ID:llä
-    if (currentRecord != undefined) {
-      currentRecord.name = this.itemObj.name;
-      currentRecord.description = this.itemObj.description;
-      currentRecord.price = this.itemObj.price;
-      localStorage.setItem('items', JSON.stringify(this.itemList));
+    if (this.itemObj.id) {
+      this.dbService.updateItem(this.itemObj.id, {
+        name: this.itemObj.name,
+        description: this.itemObj.description,
+        price: this.itemObj.price
+      });
+      this.resetForm();
       this.closeModal();
     }
   }
 
-  /** 4. Modaalinhallinta
-   * openModal: Avaa lomakemodalin
-   * closeModal: Sulkee lomakemodalin
-   * openDeleteModal: Avaa poistomodalin
-   * closeDeleteModal: Sulkee poistomodalin
-   * @returns void
-   */
+  onEdit(item: Item): void {
+    this.itemObj = {...item};
+    this.openModal();
+  }
+
+  resetForm(): void {
+    this.itemObj = {
+      id: '',
+      name: '',
+      description: '',
+      price: 0
+    };
+  }
+
   openModal(): void {
     if (!this.formModal) {
       this.initializeModals();
@@ -147,11 +100,10 @@ export class CrudService {
 
   closeModal(): void {
     this.formModal?.hide();
-    this.itemObj = new Item();
+    this.resetForm();
   }
 
   openDeleteModal(item: Item): void {
-
     console.log('Opening delete modal for item:', item);
     if (!this.deleteModal) {
       this.initializeModals();
@@ -165,24 +117,43 @@ export class CrudService {
     this.itemToDelete = null;
   }
 
-  /** 5. Modaalinhallinta
-   * confirmDelete: Vahvistaa poistamisen
+  /**
+   * Alustaa modaalit
+   * Tarkistaa Bootstrap-kirjaston saatavuuden
+   * Siivoaa vanhat modaalit muistivuotojen estämiseksi
+   * Hakee modaalielementit DOM:sta
+   * Luo uudet modaali-instanssit turvallisilla asetuksilla
    * @returns void
    */
-  confirmDelete(): void {
-    if (this.itemToDelete) {
-      const currentRecord = this.itemList.findIndex(i => i.id === this.itemToDelete!.id);
-      this.itemList.splice(currentRecord, 1);
-      localStorage.setItem('items', JSON.stringify(this.itemList));
-      this.closeDeleteModal();
-    }
-  }
+  initializeModals(): void {
+    try {
+      if (typeof window === 'undefined' || !(window as any).bootstrap) {
+        console.error('Bootstrap is not loaded');
+        return;
+      }
 
-  /** 6. Yleisemmat toiminnot
-   * getNextId: Generoi uuden ID:n
-   * @returns number
-   */
-  private getNextId(items: Item[]): number {
-    return items.length > 0 ? Math.max(...items.map(item => item.id)) + 1 : 1;
+      this.formModal?.dispose();
+      this.deleteModal?.dispose();
+
+      const formElement = document.getElementById('myModal');
+      const deleteElement = document.getElementById('deleteModal');
+
+      if (!formElement || !deleteElement) {
+        console.error('Modal elements not found');
+        return;
+      }
+
+      this.formModal = new (window as any).bootstrap.Modal(formElement, {
+        keyboard: true,
+        backdrop: 'static'
+      });
+
+      this.deleteModal = new (window as any).bootstrap.Modal(deleteElement, {
+        keyboard: true,
+        backdrop: 'static'
+      });
+    } catch (error) {
+      console.error('Error initializing modals:', error);
+    }
   }
 }
