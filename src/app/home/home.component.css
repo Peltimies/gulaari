@@ -217,21 +217,106 @@
     margin-bottom: 0.5rem;
 }
 
+.achievements-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 1.5rem;
+    padding: 1rem;
+}
+
+.achievement-badge {
+    flex: 0 0 120px;
+    height: 120px;
+    padding: 0.5rem;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 50%;
+    box-shadow: 0 2px 6px rgba(93, 47, 13, 0.15);
+}
+
+.badge-image {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.achievement-details {
+    flex: 1;
+}
+
+.achievement-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #4a1e05;
+    margin-bottom: 0.3rem;
+}
+
+.achievement-subtitle {
+    font-size: 0.9rem;
+    color: #5d2f0d;
+    font-style: italic;
+}
+
 .quest {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0.5rem 1rem;
+    padding: 1rem;
+    margin-bottom: 0.5rem;
     border: 1px solid #8b4513;
     border-radius: 5px;
-    background: #fff;
-    margin-bottom: 0.5rem;
+    background: rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.quest:hover {
+    transform: translateX(5px);
+    box-shadow: 0 2px 8px rgba(93, 47, 13, 0.2);
+}
+
+.quest-info {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+}
+
+.quest-info i {
+    color: #5d2f0d;
+    font-size: 1.2rem;
+}
+
+.quest-name {
+    color: #4a1e05;
+    text-decoration: none;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    transition: color 0.2s ease;
+}
+
+.quest-name:hover {
+    color: #8b4513;
+}
+
+.quest-link-icon {
+    font-size: 0.8em;
+    opacity: 0;
+    transform: translateX(-5px);
+    transition: all 0.2s ease;
+}
+
+.quest-name:hover .quest-link-icon {
+    opacity: 1;
+    transform: translateX(0);
 }
 
 .quest-status {
-    color: #1b5e20; /* Darker green */
-    font-style: italic;
-    font-weight: 600;
+    background: #2d4a22;
+    color: #fff;
+    padding: 0.3rem 0.8rem;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
 }
 
 .actions {
@@ -282,6 +367,11 @@
     font-family: 'Crimson Text', serif;
 }
 
+.achievement:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(93, 47, 13, 0.2);
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .character-sheet {
@@ -312,6 +402,17 @@
 
     .portrait-section {
         flex: 0 0 auto;
+    }
+
+    .achievement {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+
+    .achievement-badge {
+        flex: 0 0 100px;
+        height: 100px;
     }
 }
 /* End of character sheet styles */

@@ -92,6 +92,7 @@ export class CrudService {
   }
 
   saveItem(): void {
+    console.log('Saving item:', this.itemObj);
     const isLocalPresent = localStorage.getItem('items'); // Tarkistaa, että localStorage on olemassa
     if (isLocalPresent != null) { // Jos localStorage on olemassa, tallentaa uuden kohteen
       const oldArr = JSON.parse(isLocalPresent); // oldArr, eli taulukko joka sisältää vanhat kohteet
@@ -109,6 +110,7 @@ export class CrudService {
   }
 
   deleteItem(item: Item): void {
+    console.log('Deleting item:', item);
     this.openDeleteModal(item);
   }
 
@@ -118,6 +120,7 @@ export class CrudService {
   }
 
   updateItem(): void {
+    console.log('Updating item:', this.itemObj);
     const currentRecord = this.itemList.find(item => item.id === this.itemObj.id); // Etsii olemassa olevan kohden ID:llä
     if (currentRecord != undefined) {
       currentRecord.name = this.itemObj.name;
@@ -148,6 +151,8 @@ export class CrudService {
   }
 
   openDeleteModal(item: Item): void {
+
+    console.log('Opening delete modal for item:', item);
     if (!this.deleteModal) {
       this.initializeModals();
     }

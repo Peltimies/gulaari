@@ -1,141 +1,158 @@
+<div class="guild-hall">
+    <div class="guild-header">
+        <div class="guild-title">
+            <i class="fas fa-chess-rook"></i>
+            <h1>Adventurer's Guild Hall</h1>
+        </div>
+        <a routerLink="/" class="return-path">
+            <i class="fas fa-arrow-left"></i>
+            Return to Character Sheet
+        </a>
+    </div>
 
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-      <h2>Settlement Portal</h2>
-      <button class="btn btn-primary" (click)="openModal()">Add New</button>
-    </div>
-  
-    <!-- Item Grid -->
-    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
-      <div class="col" *ngFor="let item of crudService.itemList">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title">{{item.name}}</h5>
-            <p class="card-text">{{item.description}}</p>
-            <p class="card-text">€{{item.price}}</p>
-            <div class="d-flex gap-2">
-              <button class="btn btn-outline-success" (click)="onEdit(item)">Edit</button>
-              <button class="btn btn-danger" (click)="deleteItem(item)">Delete</button>
+    <div class="guild-content">
+        <div class="notice-board">
+            <div class="board-section">
+                <div class="section-header">
+                    <i class="fas fa-scroll"></i>
+                    <h2>Settlement Portal</h2>
+                </div>
+                <div class="quest-list">
+                    <div class="quest-card" *ngFor="let item of crudService.itemList">
+                        <div class="quest-header">
+                            <span class="quest-title">{{item.name}}</span>
+                            <span class="quest-difficulty">€{{item.price}}</span>
+                        </div>
+                        <div class="quest-description">{{item.description}}</div>
+                        <div class="quest-actions">
+                            <button class="action-btn edit-btn" (click)="onEdit(item)">
+                                <i class="fas fa-feather-alt"></i>
+                                Edit
+                            </button>
+                            <button class="action-btn delete-btn" (click)="deleteItem(item)">
+                                <i class="fas fa-trash-alt"></i>
+                                Delete
+                            </button>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
+
+            <div class="post-quest">
+                <button class="new-quest-btn" (click)="openModal()">
+                    <i class="fas fa-plus-circle"></i>
+                    Add New
+                </button>
+            </div>
         </div>
-      </div>
     </div>
-  
-    <!-- Show this when there are no items -->
-    <div class="row" *ngIf="crudService.itemList.length === 0">
-      <div class="col-12 text-center mt-4">
-        <p class="text-muted">No items yet. Click "Add New" to create one!</p>
-      </div>
-    </div>
-  </div>
-  
-  <!-- The Modal -->
-  <div class="modal" id="myModal">
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="myModal">
     <div class="modal-dialog">
-      <div class="modal-content">
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">{{ crudService.itemObj.id ? 'Edit Item' : 'Add New Item' }}</h4>
-          <button type="button" class="btn-close" (click)="closeModal()"></button>
-        </div>
-  
-        <!-- Modal body -->
-        <div class="modal-body">
-          <form #itemForm="ngForm">
-            <div class="mb-3">
-              <label for="name" class="form-label">Name</label>
-              <input type="text" 
-                     [(ngModel)]="crudService.itemObj.name" 
-                     name="name" 
-                     id="name" 
-                     class="form-control" 
-                     required
-                     #name="ngModel"
-                     [class.is-invalid]="name.invalid && name.touched">
-              <div class="invalid-feedback" *ngIf="name.invalid && name.touched">
-                Name is required
-              </div>
+        <div class="modal-content">
+            <!-- Modal Header -->
+            <div class="modal-header">
+                <h4 class="modal-title">{{ crudService.itemObj.id ? 'Edit Item' : 'Add New Item' }}</h4>
+                <button type="button" class="btn-close" (click)="closeModal()"></button>
             </div>
-  
-            <div class="mb-3">
-              <label for="description" class="form-label">Description</label>
-              <input type="text" 
-                     [(ngModel)]="crudService.itemObj.description" 
-                     name="description" 
-                     id="description" 
-                     class="form-control" 
-                     required
-                     #description="ngModel"
-                     [class.is-invalid]="description.invalid && description.touched">
-              <div class="invalid-feedback" *ngIf="description.invalid && description.touched">
-                Description is required
-              </div>
+
+            <!-- Modal body -->
+            <div class="modal-body">
+                <form #itemForm="ngForm">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Name</label>
+                        <input type="text" 
+                               [(ngModel)]="crudService.itemObj.name" 
+                               name="name" 
+                               id="name" 
+                               class="form-control" 
+                               required
+                               #name="ngModel"
+                               [class.is-invalid]="name.invalid && name.touched">
+                        <div class="invalid-feedback" *ngIf="name.invalid && name.touched">
+                            Name is required
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="description" class="form-label">Description</label>
+                        <input type="text" 
+                               [(ngModel)]="crudService.itemObj.description" 
+                               name="description" 
+                               id="description" 
+                               class="form-control" 
+                               required
+                               #description="ngModel"
+                               [class.is-invalid]="description.invalid && description.touched">
+                        <div class="invalid-feedback" *ngIf="description.invalid && description.touched">
+                            Description is required
+                        </div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="price" class="form-label">Price (€)</label>
+                        <input type="number" 
+                               [(ngModel)]="crudService.itemObj.price" 
+                               name="price" 
+                               id="price" 
+                               class="form-control" 
+                               required
+                               min="0"
+                               #price="ngModel"
+                               [class.is-invalid]="(price.invalid || crudService.itemObj.price < 0) && price.touched">
+                        <div class="invalid-feedback" *ngIf="price.invalid && price.touched">
+                            Price is required and must be 0 or greater
+                        </div>
+                    </div>
+                </form>
             </div>
-  
-            <div class="mb-3">
-              <label for="price" class="form-label">Price (€)</label>
-              <input type="number" 
-                     [(ngModel)]="crudService.itemObj.price" 
-                     name="price" 
-                     id="price" 
-                     class="form-control" 
-                     required
-                     min="0"
-                     #price="ngModel"
-                     [class.is-invalid]="(price.invalid || crudService.itemObj.price < 0) && price.touched">
-              <div class="invalid-feedback" *ngIf="price.invalid && price.touched">
-                Price is required and must be 0 or greater
-              </div>
+
+            <!-- Modal footer -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
+                <button type="button" 
+                        [class.btn-primary]="!crudService.itemObj.id"
+                        [class.btn-success]="crudService.itemObj.id"
+                        (click)="crudService.itemObj.id ? updateItem() : saveItem()"
+                        [disabled]="itemForm.invalid || crudService.itemObj.price < 0">
+                    {{ crudService.itemObj.id ? 'Update' : 'Add' }}
+                </button>
             </div>
-          </form>
         </div>
-  
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
-          <button type="button" 
-                  [class.btn-primary]="!crudService.itemObj.id"
-                  [class.btn-success]="crudService.itemObj.id"
-                  (click)="crudService.itemObj.id ? updateItem() : saveItem()"
-                  [disabled]="itemForm.invalid || crudService.itemObj.price < 0">
-            {{ crudService.itemObj.id ? 'Update' : 'Add' }}
-          </button>
-        </div>
-      </div>
     </div>
-  </div>
-  
-  <!-- Delete Confirmation Modal -->
-  <div class="modal" 
-       id="deleteModal" 
-       role="dialog" 
-       aria-labelledby="deleteModalTitle" 
-       aria-modal="true">
+</div>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal" 
+     id="deleteModal" 
+     role="dialog" 
+     aria-labelledby="deleteModalTitle" 
+     aria-modal="true">
     <div class="modal-dialog modal-sm">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="deleteModalTitle">Confirm Delete</h5>
-          <button type="button" 
-                  class="btn-close" 
-                  (click)="crudService.closeDeleteModal()"
-                  aria-label="Close"></button>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalTitle">Confirm Delete</h5>
+                <button type="button" 
+                        class="btn-close" 
+                        (click)="crudService.closeDeleteModal()"
+                        aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to delete "{{crudService.itemToDelete?.name}}"?</p>
+                <p class="text-muted small mb-0">This action cannot be undone.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" 
+                        class="btn btn-secondary" 
+                        (click)="crudService.closeDeleteModal()"
+                        aria-label="Cancel deletion">Cancel</button>
+                <button type="button" 
+                        class="btn btn-danger" 
+                        (click)="crudService.confirmDelete()"
+                        aria-label="Confirm deletion">Delete</button>
+            </div>
         </div>
-        <div class="modal-body">
-          <p>Are you sure you want to delete "{{crudService.itemToDelete?.name}}"?</p>
-          <p class="text-muted small mb-0">This action cannot be undone.</p>
-        </div>
-        <div class="modal-footer">
-          <button type="button" 
-                  class="btn btn-secondary" 
-                  (click)="crudService.closeDeleteModal()"
-                  aria-label="Cancel deletion">Cancel</button>
-          <button type="button" 
-                  class="btn btn-danger" 
-                  (click)="crudService.confirmDelete()"
-                  aria-label="Confirm deletion">Delete</button>
-        </div>
-      </div>
     </div>
-  </div>
-  
+</div>
