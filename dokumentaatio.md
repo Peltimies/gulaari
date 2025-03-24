@@ -125,3 +125,36 @@
 - Saavutettavuusparannukset
 - Virheidenkäsittelyn parannus
 - Modaalien suorituskykyoptimointi
+
+## 8. Portfolio Documentation
+
+## Updates and Changes
+
+### March 24, 2025 - D&D Theme Implementation
+1. **Medieval-Style Portfolio Design**
+   - Created D&D character sheet themed layout
+   - Added parchment background and medieval styling
+   - Implemented responsive design for all screen sizes
+
+2. **Visual Components**
+   - Added oval portrait frame with triple-border decoration
+   - Implemented contact section with thematic icons
+   - Created medieval-styled ability and proficiency cards
+   - Added hover effects with scaling and subtle glow
+
+3. **Content Organization**
+   - Character Chronicle (About Me) section with medieval English
+   - Primary Abilities section for core programming skills
+   - Proficiencies section for soft skills and technologies
+   - Each skill card features thematic icons
+
+4. **Technical Fixes**
+   - Configured assets in angular.json for proper image loading
+   - Fixed image path issues using absolute paths
+   - Ensured proper case sensitivity for file extensions
+
+5. **Color Scheme**
+   - Primary browns: #5d2f0d, #8b4513, #4a1e05
+   - Light parchment background
+   - Accent green: #2d4a22 for ability scores
+   - Semi-transparent overlays for depth

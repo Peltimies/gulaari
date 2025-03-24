@@ -1,39 +1,7 @@
-/* Container spacing */
-.container {
-    padding-bottom: 2rem;
-}
-
-/* Card grid layout */
-.row-cols-1 {
-    --bs-gutter-y: 1.5rem;
-}
-
-/* Card content */
-.card {
-    height: 100%;
-}
-
-.card-body {
-    display: flex;
-    flex-direction: column;
-}
-
-.card-text {
-    flex-grow: 1;
+.navbar {
     margin-bottom: 1rem;
 }
 
-/* Modal backdrop */
-.modal {
-    background-color: rgba(0, 0, 0, 0.5);
-}
-
-/* Button spacing */
-.d-flex.gap-2 {
-    margin-top: auto;
-}
-
-/* Empty state */
-.text-center.mt-4 {
-    padding: 3rem 0;
+.nav-link.active {
+    font-weight: bold;
 }
