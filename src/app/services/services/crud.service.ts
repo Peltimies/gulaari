@@ -1,5 +1,7 @@
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Item } from '../../classes/item';
+import { firstValueFrom } from 'rxjs';
 
 // Modaali-rajapinta määrittelee Bootstrap-modaalin metodit
 interface Modal {
@@ -7,7 +9,6 @@ interface Modal {
   hide: () => void;
   dispose: () => void;
 }
-
 
  /** 1. Palvelun Määrittely
   * Tämä määrittelee palvelun toimintoja
@@ -27,82 +28,56 @@ export class CrudService {
   private formModal: Modal | null = null; // Lomakemodaali
   private deleteModal: Modal | null = null; // Poistomodaali
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.loadItems();
   }
 
-  
-  /** 2. Modaalien alustus
-   * Alustaa modaalit
-   * Tarkistaa Bootstrap-kirjaston saatavuuden
-   * Siivoaa vanhat modaalit muistivuotojen estämiseksi
-   * Hakee modaalielementit DOM:sta
-   * Luo uudet modaali-instanssit turvallisilla asetuksilla
-   * @returns void
+  /** 2. Tietojen lataus
+   * Lataa kohteet ensisijaisesti localStoragesta
+   * Jos localStoragessa ei ole dataa, lataa oletustiedot JSON-tiedostosta
+   * @returns Promise<void>
    */
-  initializeModals(): void {
-    try {
-      if (typeof window === 'undefined' || !(window as any).bootstrap) { // Tarkistaa, että Bootstrap on ladattu
-        console.error('Bootstrap is not loaded');
-        return;
+  async loadItems(): Promise<void> {
+    const localData = localStorage.getItem('items');
+    
+    if (localData) {
+      this.itemList = JSON.parse(localData);
+    } else {
+      try {
+        // Lataa oletustiedot JSON-tiedostosta
+        const response = await firstValueFrom(
+          this.http.get<{items: Item[]}>('assets/default-items.json')
+        );
+        this.itemList = response.items;
+        // Tallenna oletustiedot localStorageen
+        localStorage.setItem('items', JSON.stringify(this.itemList));
+      } catch (error) {
+        console.error('Error loading default items:', error);
+        this.itemList = [];
       }
-
-      // Vanhojen modaalien siivous
-      // Tämä tekee sen, että vanha modaali ei jää käyttöliittymään kummittelemaan  
-      this.formModal?.dispose(); // Jos formModal (hallinnoi lisäystä/muokkausta) on null, eli ei olemassa = dispose()-metodia ei kutsuta.
-      this.deleteModal?.dispose(); // Jos deleteModal (hallinnoi poistoa) on null, eli ei olemassa = dispose()-metodia ei kutsuta.
-
-      const formElement = document.getElementById('myModal'); // Hakee lomakemodalin elementin
-      const deleteElement = document.getElementById('deleteModal'); // Hakee poistomodalin elementin
-
-      if (!formElement || !deleteElement) {
-        console.error('Modal elements not found'); // Tarkistaa, että modaalielementit löytyvät
-        return;
-      }
-
-      // Uusien modaalien alustus
-      this.formModal = new (window as any).bootstrap.Modal(formElement, { // Luo uuden lomakemodalin-instanssin
-        keyboard: true,
-        backdrop: 'static'
-      });
-
-      this.deleteModal = new (window as any).bootstrap.Modal(deleteElement, { // Luo uuden poistomodalin-instanssin
-        keyboard: true,
-        backdrop: 'static'
-      });
-    } catch (error) {
-      console.error('Error initializing modals:', error); // Tarkistaa, että modaalit alustuvat
     }
   }
 
-  /** 3. CRUD-operaatiot
-   * loadItems: Lataa kohteet localStoragesta
-   * saveItem: Tallentaa uuden kohteen, generoi ID:n
-   * updateItem: Päivittää olemassa olevan kohteen
-   * deleteItem: Poistaa kohteen localStoragestä
-   * onEdit: Avaa muokkausmodalin
-   * updateItem: Päivittää olemassa olevan kohteen
+  /** 3. Tietojen tallennus
+   * Tallentaa tiedot localStorageen
    * @returns void
    */
-  loadItems(): void {
-    const localData = localStorage.getItem('items');
-    if (localData != null) {
-      this.itemList = JSON.parse(localData);
-    }
+  private saveToLocalStorage(): void {
+    localStorage.setItem('items', JSON.stringify(this.itemList));
   }
 
   saveItem(): void {
-    const isLocalPresent = localStorage.getItem('items'); // Tarkistaa, että localStorage on olemassa
-    if (isLocalPresent != null) { // Jos localStorage on olemassa, tallentaa uuden kohteen
-      const oldArr = JSON.parse(isLocalPresent); // oldArr, eli taulukko joka sisältää vanhat kohteet
-      this.itemObj.id = this.getNextId(oldArr); // Generoi uuden ID:n
-      oldArr.push(this.itemObj); // oldArr lisätään itemObj, joka on uusi kohde
-      localStorage.setItem('items', JSON.stringify(oldArr));
+    const isLocalPresent = localStorage.getItem('items');
+    if (isLocalPresent != null) {
+      const oldArr = JSON.parse(isLocalPresent);
+      this.itemObj.id = this.getNextId(oldArr);
+      oldArr.push(this.itemObj);
+      this.saveToLocalStorage();
     } else {
       const newArr = [];
       this.itemObj.id = 1;
       newArr.push(this.itemObj);
-      localStorage.setItem('items', JSON.stringify(newArr));
+      this.saveToLocalStorage();
     }
     this.loadItems();
     this.closeModal();
@@ -113,17 +88,17 @@ export class CrudService {
   }
 
   onEdit(item: Item): void {
-    this.itemObj = {...item}; // Create a copy to prevent direct reference
+    this.itemObj = {...item}; 
     this.openModal();
   }
 
   updateItem(): void {
-    const currentRecord = this.itemList.find(item => item.id === this.itemObj.id); // Etsii olemassa olevan kohden ID:llä
+    const currentRecord = this.itemList.find(item => item.id === this.itemObj.id);
     if (currentRecord != undefined) {
       currentRecord.name = this.itemObj.name;
       currentRecord.description = this.itemObj.description;
       currentRecord.price = this.itemObj.price;
-      localStorage.setItem('items', JSON.stringify(this.itemList));
+      this.saveToLocalStorage();
       this.closeModal();
     }
   }
@@ -160,7 +135,7 @@ export class CrudService {
     this.itemToDelete = null;
   }
 
-  /** 5. Modaalinhallinta
+  /** 5. Poiston vahvistus
    * confirmDelete: Vahvistaa poistamisen
    * @returns void
    */
@@ -168,12 +143,70 @@ export class CrudService {
     if (this.itemToDelete) {
       const currentRecord = this.itemList.findIndex(i => i.id === this.itemToDelete!.id);
       this.itemList.splice(currentRecord, 1);
-      localStorage.setItem('items', JSON.stringify(this.itemList));
+      this.saveToLocalStorage();
       this.closeDeleteModal();
     }
   }
 
-  /** 6. Yleisemmat toiminnot
+  /** 6. Tietojen nollaus
+   * Palauttaa oletustiedot JSON-tiedostosta
+   * @returns Promise<void>
+   */
+  async resetToDefaults(): Promise<void> {
+    try {
+      const response = await firstValueFrom(
+        this.http.get<{items: Item[]}>('assets/default-items.json')
+      );
+      this.itemList = response.items;
+      this.saveToLocalStorage();
+    } catch (error) {
+      console.error('Error resetting to defaults:', error);
+    }
+  }
+
+  /** 2. Modaalien alustus
+   * Alustaa modaalit
+   * Tarkistaa Bootstrap-kirjaston saatavuuden
+   * Siivoaa vanhat modaalit muistivuotojen estämiseksi
+   * Hakee modaalielementit DOM:sta
+   * Luo uudet modaali-instanssit turvallisilla asetuksilla
+   * @returns void
+   */
+  initializeModals(): void {
+    try {
+      if (typeof window === 'undefined' || !(window as any).bootstrap) { 
+        console.error('Bootstrap is not loaded');
+        return;
+      }
+
+      // Vanhojen modaalien siivous
+      this.formModal?.dispose(); 
+      this.deleteModal?.dispose(); 
+
+      const formElement = document.getElementById('myModal'); 
+      const deleteElement = document.getElementById('deleteModal'); 
+
+      if (!formElement || !deleteElement) {
+        console.error('Modal elements not found'); 
+        return;
+      }
+
+      // Uusien modaalien alustus
+      this.formModal = new (window as any).bootstrap.Modal(formElement, { 
+        keyboard: true,
+        backdrop: 'static'
+      });
+
+      this.deleteModal = new (window as any).bootstrap.Modal(deleteElement, { 
+        keyboard: true,
+        backdrop: 'static'
+      });
+    } catch (error) {
+      console.error('Error initializing modals:', error); 
+    }
+  }
+
+  /** 6. Yleiset toiminnot
    * getNextId: Generoi uuden ID:n
    * @returns number
    */
