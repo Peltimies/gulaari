@@ -2,7 +2,7 @@ import { Component, OnInit, AfterViewInit, NgZone } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { CrudService } from '../services/services/crud.service';
-import { Item } from '../classes/item';
+import { Quest } from '../classes/quest';
 
 @Component({
   selector: 'app-management',
@@ -41,19 +41,19 @@ export class ManagementComponent implements OnInit, AfterViewInit {
     this.crudService.closeModal();
   }
 
-  saveItem(): void {
-    this.crudService.saveItem();
+  saveQuest(): void {
+    this.crudService.saveQuest();
   }
 
-  updateItem(): void {
-    this.crudService.updateItem();
+  updateQuest(): void {
+    this.crudService.updateQuest();
   }
 
-  deleteItem(item: Item): void {
-    this.crudService.deleteItem(item);
+  deleteQuest(quest: Quest): void {
+    this.crudService.deleteQuest(quest);
   }
 
-  onEdit(item: Item): void {
-    this.crudService.onEdit(item);
+  onEdit(quest: Quest): void {
+    this.crudService.onEdit(quest);
   }
 }

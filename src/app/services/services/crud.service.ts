@@ -1,49 +1,50 @@
 import { Injectable } from '@angular/core';
-import { InMemoryDbService, Item } from '../in-memory-db.service';
+import { InMemoryDbService, Quest } from '../in-memory-db.service';
 import { Observable } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class CrudService {
-  itemList: Item[] = [];
-  itemObj: Item = {
+  questList: Quest[] = [];
+  questObj: Quest = {
     id: '',
     name: '',
     description: '',
-    price: 0
-  };
-  itemToDelete: Item | null = null;
+    reward: 0
+  };  
+  questToDelete: Quest | null = null;
 
   // Bootstrap modals
   formModal: any;
   deleteModal: any;
 
   constructor(private dbService: InMemoryDbService) {
-    this.loadItems();
+    this.loadQuests();
   }
 
-  private loadItems(): void {
-    this.dbService.getItems().subscribe(items => {
-      this.itemList = items;
+  private loadQuests(): void {
+    this.dbService.getQuests().subscribe(quests => {
+      this.questList = quests;
     });
   }
 
-  saveItem(): void {
-    console.log('Saving item:', this.itemObj);
-    if (this.itemObj.id) {
-      // Update existing item
-      this.dbService.updateItem(this.itemObj.id, {
-        name: this.itemObj.name,
-        description: this.itemObj.description,
-        price: this.itemObj.price
+  saveQuest(): void {
+    console.log('Saving quest:', this.questObj);
+    if (this.questObj.id) {
+      // Update existing quest
+      this.dbService.updateQuest(this.questObj.id, {
+        name: this.questObj.name,
+        description: this.questObj.description,
+        reward: this.questObj.reward
       });
     } else {
-      // Add new item
-      this.dbService.addItem({
-        name: this.itemObj.name,
-        description: this.itemObj.description,
-        price: this.itemObj.price
+      // Add new quest
+      this.dbService.addQuest({
+        name: this.questObj.name,
+        description: this.questObj.description,
+        reward: this.questObj.reward
       });
     }
     
@@ -51,43 +52,43 @@ export class CrudService {
     this.closeModal();
   }
 
-  deleteItem(item: Item): void {
-    console.log('Deleting item:', item);
-    this.openDeleteModal(item);
+  deleteQuest(quest: Quest): void {
+    console.log('Deleting quest:', quest);
+    this.openDeleteModal(quest);
   }
 
   confirmDelete(): void {
-    if (this.itemToDelete) {
-      this.dbService.deleteItem(this.itemToDelete.id);
+    if (this.questToDelete) {
+      this.dbService.deleteQuest(this.questToDelete.id);
       this.closeDeleteModal();
-      this.itemToDelete = null;
+      this.questToDelete = null;
     }
   }
 
-  updateItem(): void {
-    console.log('Updating item:', this.itemObj);
-    if (this.itemObj.id) {
-      this.dbService.updateItem(this.itemObj.id, {
-        name: this.itemObj.name,
-        description: this.itemObj.description,
-        price: this.itemObj.price
+  updateQuest(): void {
+    console.log('Updating quest:', this.questObj);
+    if (this.questObj.id) {
+      this.dbService.updateQuest(this.questObj.id, {
+        name: this.questObj.name,
+        description: this.questObj.description,
+        reward: this.questObj.reward
       });
       this.resetForm();
       this.closeModal();
     }
   }
 
-  onEdit(item: Item): void {
-    this.itemObj = {...item};
+  onEdit(quest: Quest): void {
+    this.questObj = {...quest};
     this.openModal();
   }
 
   resetForm(): void {
-    this.itemObj = {
+    this.questObj = {
       id: '',
       name: '',
       description: '',
-      price: 0
+      reward: 0
     };
   }
 
@@ -103,18 +104,18 @@ export class CrudService {
     this.resetForm();
   }
 
-  openDeleteModal(item: Item): void {
-    console.log('Opening delete modal for item:', item);
+  openDeleteModal(quest: Quest): void {
+    console.log('Opening delete modal for quest:', quest);
     if (!this.deleteModal) {
       this.initializeModals();
     }
-    this.itemToDelete = item;
+    this.questToDelete = quest;
     this.deleteModal?.show();
   }
 
   closeDeleteModal(): void {
     this.deleteModal?.hide();
-    this.itemToDelete = null;
+    this.questToDelete = null;
   }
 
   /**

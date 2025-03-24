@@ -1,74 +1,93 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
+import { Quest } from '../classes/quest';
 
 export interface Item {
   id: string;
   name: string;
   description: string;
-  price: number;
+  reward: number;
 }
 
 @Injectable({
   providedIn: 'root'
 })
 export class InMemoryDbService {
-  private items: Item[] = [];
-  private itemsSubject = new BehaviorSubject<Item[]>([]);
+  private readonly STORAGE_KEY = 'quests';
+  private quests: Quest[] = [];
+  private questsSubject = new BehaviorSubject<Quest[]>([]);
 
   constructor() {
-    // Initialize with some sample data
-    this.items = [
-      {
-        id: '1',
-        name: 'Potion of Healing',
-        description: 'Restores 2d4+2 hit points to the drinker',
-        price: 50
-      },
-      {
-        id: '2',
-        name: 'Ring of Protection',
-        description: '+1 to AC and saving throws',
-        price: 3500
-      }
-    ];
-    this.itemsSubject.next(this.items);
+    this.loadFromStorage();   
   }
 
-  // Get all items as an observable
-  getItems(): Observable<Item[]> {
-    return this.itemsSubject.asObservable();
+  private loadFromStorage(): void {
+    const storedQuests = localStorage.getItem(this.STORAGE_KEY);
+    if (storedQuests) {
+      this.quests = JSON.parse(storedQuests);
+    } else {
+      // Initialize with sample data only if storage is empty
+      this.quests = [
+        {
+          id: '1',
+          name: 'Potion of Healing',
+          description: 'Restores 2d4+2 hit points to the drinker',
+          reward: 50
+        },
+        {
+          id: '2',
+          name: 'Ring of Protection',
+          description: '+1 to AC and saving throws',
+          reward: 3500
+        }
+      ];
+      this.saveToStorage();
+    }
+    this.questsSubject.next(this.quests);
   }
 
-  // Get a single item by ID
-  getItem(id: string): Observable<Item | undefined> {
-    return this.itemsSubject.pipe(
-      map(items => items.find(item => item.id === id))
+  private saveToStorage(): void {
+    localStorage.setItem(this.STORAGE_KEY, JSON.stringify(this.quests));
+  }
+
+  // Get all quests as an observable
+  getQuests(): Observable<Quest[]> {
+    return this.questsSubject.asObservable();
+  }
+
+  // Get a single quest by ID
+  getQuest(id: string): Observable<Quest | undefined> {
+    return this.questsSubject.pipe(
+      map(quests => quests.find(quest => quest.id === id))
     );
   }
 
-  // Add a new item
-  addItem(item: Omit<Item, 'id'>): void {
-    const newItem = {
-      ...item,
+  // Add a new quest
+  addQuest(quest: Omit<Quest, 'id'>): void {
+    const newQuest = {
+      ...quest,
       id: this.generateId()
     };
-    this.items = [...this.items, newItem];
-    this.itemsSubject.next(this.items);
+    this.quests = [...this.quests, newQuest];
+    this.saveToStorage();
+    this.questsSubject.next(this.quests);
   }
 
-  // Update an existing item
-  updateItem(id: string, updates: Partial<Omit<Item, 'id'>>): void {
-    this.items = this.items.map(item => 
-      item.id === id ? { ...item, ...updates } : item
+  // Update an existing quest
+  updateQuest(id: string, updates: Partial<Omit<Quest, 'id'>>): void {
+    this.quests = this.quests.map(quest => 
+      quest.id === id ? { ...quest, ...updates } : quest
     );
-    this.itemsSubject.next(this.items);
+    this.saveToStorage();
+    this.questsSubject.next(this.quests);
   }
 
   // Delete an item
-  deleteItem(id: string): void {
-    this.items = this.items.filter(item => item.id !== id);
-    this.itemsSubject.next(this.items);
+  deleteQuest(id: string): void {
+    this.quests = this.quests.filter(quest => quest.id !== id);
+    this.saveToStorage();
+    this.questsSubject.next(this.quests);
   }
 
   // Generate a unique ID
@@ -76,9 +95,12 @@ export class InMemoryDbService {
     return Date.now().toString(36) + Math.random().toString(36).substr(2);
   }
 
-  // Clear all items (useful for testing)
+  // Clear all quests (useful for testing)
   clearAll(): void {
-    this.items = [];
-    this.itemsSubject.next(this.items);
+    this.quests = [];
+    this.saveToStorage();
+    this.questsSubject.next(this.quests);
   }
 }
+export { Quest };
+

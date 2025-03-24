@@ -18,18 +18,18 @@
                     <h2>Quest Giver</h2>
                 </div>
                 <div class="quest-list">
-                    <div class="quest-card" *ngFor="let item of crudService.itemList">
+                    <div class="quest-card" *ngFor="let quest of crudService.questList">
                         <div class="quest-header">
-                            <span class="quest-title">{{item.name}}</span>
-                            <span class="quest-difficulty">€{{item.price}}</span>
+                            <span class="quest-title">{{quest.name}}</span>
+                            <span class="quest-difficulty">€{{quest.reward}}</span>
                         </div>
-                        <div class="quest-description">{{item.description}}</div>
+                        <div class="quest-description">{{quest.description}}</div>
                         <div class="quest-actions">
-                            <button class="action-btn edit-btn" (click)="onEdit(item)">
+                            <button class="action-btn edit-btn" (click)="onEdit(quest)">
                                 <i class="fas fa-feather-alt"></i>
                                 Edit
                             </button>
-                            <button class="action-btn delete-btn" (click)="deleteItem(item)">
+                            <button class="action-btn delete-btn" (click)="deleteQuest(quest)">
                                 <i class="fas fa-trash-alt"></i>
                                 Delete
                             </button>
@@ -54,17 +54,17 @@
         <div class="modal-content">
             <!-- Modal Header -->
             <div class="modal-header">
-                <h4 class="modal-title">{{ crudService.itemObj.id ? 'Edit Item' : 'Add New Item' }}</h4>
+                <h4 class="modal-title">{{ crudService.questObj.id ? 'Edit Quest' : 'Add New Quest' }}</h4>
                 <button type="button" class="btn-close" (click)="closeModal()"></button>
             </div>
 
             <!-- Modal body -->
             <div class="modal-body">
-                <form #itemForm="ngForm">
+                <form #questForm="ngForm">
                     <div class="mb-3">
                         <label for="name" class="form-label">Name</label>
                         <input type="text" 
-                               [(ngModel)]="crudService.itemObj.name" 
+                               [(ngModel)]="crudService.questObj.name" 
                                name="name" 
                                id="name" 
                                class="form-control" 
@@ -79,7 +79,7 @@
                     <div class="mb-3">
                         <label for="description" class="form-label">Description</label>
                         <input type="text" 
-                               [(ngModel)]="crudService.itemObj.description" 
+                               [(ngModel)]="crudService.questObj.description" 
                                name="description" 
                                id="description" 
                                class="form-control" 
@@ -94,14 +94,14 @@
                     <div class="mb-3">
                         <label for="price" class="form-label">Price (€)</label>
                         <input type="number" 
-                               [(ngModel)]="crudService.itemObj.price" 
+                               [(ngModel)]="crudService.questObj.reward" 
                                name="price" 
                                id="price" 
                                class="form-control" 
                                required
                                min="0"
                                #price="ngModel"
-                               [class.is-invalid]="(price.invalid || crudService.itemObj.price < 0) && price.touched">
+                               [class.is-invalid]="(price.invalid || crudService.questObj.reward < 0) && price.touched">
                         <div class="invalid-feedback" *ngIf="price.invalid && price.touched">
                             Price is required and must be 0 or greater
                         </div>
@@ -113,11 +113,11 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
                 <button type="button" 
-                        [class.btn-primary]="!crudService.itemObj.id"
-                        [class.btn-success]="crudService.itemObj.id"
-                        (click)="crudService.itemObj.id ? updateItem() : saveItem()"
-                        [disabled]="itemForm.invalid || crudService.itemObj.price < 0">
-                    {{ crudService.itemObj.id ? 'Update' : 'Add' }}
+                        [class.btn-primary]="!crudService.questObj.id"
+                        [class.btn-success]="crudService.questObj.id"
+                        (click)="crudService.questObj.id ? updateQuest() : saveQuest()"
+                        [disabled]="questForm.invalid || crudService.questObj.reward < 0">
+                    {{ crudService.questObj.id ? 'Update' : 'Add' }}
                 </button>
             </div>
         </div>
@@ -140,7 +140,7 @@
                         aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <p>Are you sure you want to delete "{{crudService.itemToDelete?.name}}"?</p>
+                <p>Are you sure you want to delete "{{crudService.questToDelete?.name}}"?</p>
                 <p class="text-muted small mb-0">This action cannot be undone.</p>
             </div>
             <div class="modal-footer">
