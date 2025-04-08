@@ -2,7 +2,7 @@
 
 ## 1. Projektin yleiskuvaus
 - Projektin nimi: Gulaari (Settlement Portal)
-- Tekijä: [Tekijän nimi]
+- Tekijä: Jaakko Nojonen
 - Päivämäärä: 21.3.2025
 - Versio: 0.0.1
 
