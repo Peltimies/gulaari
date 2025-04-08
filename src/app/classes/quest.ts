@@ -4,10 +4,10 @@ export class Quest {
   description: string;
   reward: number;
 
-  constructor() {
-    this.id = '';
-    this.name = '';
-    this.description = '';
-    this.reward = 0;
+  constructor(init?: Partial<Quest>) {
+    this.id = init?.id || '';
+    this.name = init?.name || '';
+    this.description = init?.description || '';
+    this.reward = init?.reward || 0;
   }
 }

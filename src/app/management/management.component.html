@@ -2,15 +2,20 @@
     <div class="guild-header">
         <div class="guild-title">
             <i class="fas fa-chess-rook"></i>
-            <h1>Adventurer's Guild Hall</h1>
+            <h1>RPG Quest Giver</h1>
         </div>
         <a routerLink="/" class="return-path">
             <i class="fas fa-arrow-left"></i>
             Return to Character Sheet
         </a>
     </div>
+    
+    <div class="guild-description">
+        <p>Welcome to the Guild Hall! Here you can post new quests, manage existing ones, and set rewards for brave adventurers.</p>
+    </div>
 
     <div class="guild-content">
+     
         <div class="notice-board">
             <div class="board-section">
                 <div class="section-header">
@@ -21,7 +26,7 @@
                     <div class="quest-card" *ngFor="let quest of crudService.questList">
                         <div class="quest-header">
                             <span class="quest-title">{{quest.name}}</span>
-                            <span class="quest-difficulty">€{{quest.reward}}</span>
+                            <span class="quest-difficulty">{{quest.reward}} Gold Pieces</span>
                         </div>
                         <div class="quest-description">{{quest.description}}</div>
                         <div class="quest-actions">
@@ -48,17 +53,17 @@
     </div>
 </div>
 
-<!-- The Modal -->
-<div class="modal" id="myModal">
+<!-- Modaali -->
+<div class="modal" id="formModal">
     <div class="modal-dialog">
         <div class="modal-content">
-            <!-- Modal Header -->
+            <!-- MOdalin Header -->
             <div class="modal-header">
                 <h4 class="modal-title">{{ crudService.questObj.id ? 'Edit Quest' : 'Add New Quest' }}</h4>
                 <button type="button" class="btn-close" (click)="closeModal()"></button>
             </div>
 
-            <!-- Modal body -->
+            <!-- Modalin body -->
             <div class="modal-body">
                 <form #questForm="ngForm">
                     <div class="mb-3">
@@ -109,7 +114,7 @@
                 </form>
             </div>
 
-            <!-- Modal footer -->
+            <!-- Modalin footer -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-danger" (click)="closeModal()">Close</button>
                 <button type="button" 
@@ -124,7 +129,7 @@
     </div>
 </div>
 
-<!-- Delete Confirmation Modal -->
+<!-- Poistamisen vahvistusmodal -->
 <div class="modal" 
      id="deleteModal" 
      role="dialog" 

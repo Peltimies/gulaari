@@ -1,19 +1,14 @@
 import { Injectable } from '@angular/core';
-import { InMemoryDbService, Quest } from '../in-memory-db.service';
+import { InMemoryDbService } from '../in-memory-db.service';
+import { Quest } from '../../classes/quest';
 import { Observable } from 'rxjs';
-
 
 @Injectable({
   providedIn: 'root'
 })
 export class CrudService {
   questList: Quest[] = [];
-  questObj: Quest = {
-    id: '',
-    name: '',
-    description: '',
-    reward: 0
-  };  
+  questObj: Quest = new Quest();
   questToDelete: Quest | null = null;
 
   // Bootstrap modals
@@ -79,17 +74,28 @@ export class CrudService {
   }
 
   onEdit(quest: Quest): void {
-    this.questObj = {...quest};
+    this.questObj = new Quest(quest);
     this.openModal();
   }
 
   resetForm(): void {
-    this.questObj = {
-      id: '',
-      name: '',
-      description: '',
-      reward: 0
-    };
+    this.questObj = new Quest();
+  }
+
+  /**
+   * Modal Management
+   */
+  initializeModals(): void {
+    // Get modal elements
+    const formModalEl = document.getElementById('formModal');
+    const deleteModalEl = document.getElementById('deleteModal');
+
+    if (formModalEl && deleteModalEl) {
+      // @ts-ignore
+      this.formModal = new bootstrap.Modal(formModalEl);
+      // @ts-ignore
+      this.deleteModal = new bootstrap.Modal(deleteModalEl);
+    }
   }
 
   openModal(): void {
@@ -116,45 +122,5 @@ export class CrudService {
   closeDeleteModal(): void {
     this.deleteModal?.hide();
     this.questToDelete = null;
-  }
-
-  /**
-   * Alustaa modaalit
-   * Tarkistaa Bootstrap-kirjaston saatavuuden
-   * Siivoaa vanhat modaalit muistivuotojen estämiseksi
-   * Hakee modaalielementit DOM:sta
-   * Luo uudet modaali-instanssit turvallisilla asetuksilla
-   * @returns void
-   */
-  initializeModals(): void {
-    try {
-      if (typeof window === 'undefined' || !(window as any).bootstrap) {
-        console.error('Bootstrap is not loaded');
-        return;
-      }
-
-      this.formModal?.dispose();
-      this.deleteModal?.dispose();
-
-      const formElement = document.getElementById('myModal');
-      const deleteElement = document.getElementById('deleteModal');
-
-      if (!formElement || !deleteElement) {
-        console.error('Modal elements not found');
-        return;
-      }
-
-      this.formModal = new (window as any).bootstrap.Modal(formElement, {
-        keyboard: true,
-        backdrop: 'static'
-      });
-
-      this.deleteModal = new (window as any).bootstrap.Modal(deleteElement, {
-        keyboard: true,
-        backdrop: 'static'
-      });
-    } catch (error) {
-      console.error('Error initializing modals:', error);
-    }
   }
 }

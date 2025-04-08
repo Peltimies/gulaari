@@ -87,6 +87,18 @@
     transform: translateX(-5px);
 }
 
+.guild-description {
+    text-align: center;
+    color: #4a1e05;
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    padding: 1rem;
+    background: #faf6f1;
+    border: 1px solid #8b4513;
+    border-radius: 6px;
+    font-style: italic;
+}
+
 .notice-board {
     background: #fff;
     border: 3px solid #8b4513;
@@ -236,6 +248,43 @@
     color: #4a1e05;
     font-family: 'Crimson Text', serif;
     font-weight: 700;
+}
+
+/* Delete modal specific styles */
+#deleteModal .modal-content {
+    background: #4a1e05;
+    color: #f5e6d3;
+    border: 2px solid #8b0000;
+}
+
+#deleteModal .modal-header {
+    background: #3a1803;
+    border-bottom: 2px solid #8b0000;
+}
+
+#deleteModal .modal-title {
+    color: #f5e6d3;
+}
+
+#deleteModal .modal-body {
+    font-family: 'Crimson Text', serif;
+    font-size: 1.1rem;
+}
+
+#deleteModal .text-muted {
+    color: #d4b69b !important;
+}
+
+#deleteModal .btn-secondary {
+    background: #6c757d;
+    border-color: #565e64;
+    color: #fff;
+}
+
+#deleteModal .btn-danger {
+    background: #8b0000;
+    border-color: #5c0000;
+    color: #fff;
 }
 
 .modal-footer {
