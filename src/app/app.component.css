@@ -1,0 +1,7 @@
+.navbar {
+    margin-bottom: 1rem;
+}
+
+.nav-link.active {
+    font-weight: bold;
+}
