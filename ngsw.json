@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1747730565018,
+  "timestamp": 1747731642083,
   "index": "/gulaari/index.html",
   "assetGroups": [
     {
@@ -12,9 +12,9 @@
       },
       "urls": [
         "/gulaari/chunk-3ZDLIPRQ.js",
-        "/gulaari/chunk-URPZVWVK.js",
+        "/gulaari/chunk-BNOBUP6K.js",
         "/gulaari/index.html",
-        "/gulaari/main-UZPDOABE.js",
+        "/gulaari/main-JDZHZRVV.js",
         "/gulaari/polyfills-FFHMD2TL.js",
         "/gulaari/scripts-PNW4UUTQ.js",
         "/gulaari/styles-Z2IDE6XP.css"
@@ -29,7 +29,8 @@
         "ignoreVary": true
       },
       "urls": [
-        "/gulaari/assets/aws.png"
+        "/gulaari/assets/aws.png",
+        "/gulaari/assets/nojo.png"
       ],
       "patterns": []
     }
@@ -37,10 +38,11 @@
   "dataGroups": [],
   "hashTable": {
     "/gulaari/assets/aws.png": "b6651ab2f78f2556daa7aaf6abaa0f2ab6efa760",
+    "/gulaari/assets/nojo.png": "2d211720a0df19bd7b96d3569262a3292e30e4e5",
     "/gulaari/chunk-3ZDLIPRQ.js": "47f78959d0748ac21312c3d9f0378acaeec4bad3",
-    "/gulaari/chunk-URPZVWVK.js": "9fc060011c2b0f902924e5f8b545720320b438b7",
-    "/gulaari/index.html": "fa3f87ac94f3ebb7cfcf1c6775e48a0845ad0379",
-    "/gulaari/main-UZPDOABE.js": "9e5f93761b3a5215e1d2835ac48bee2d1ccfafa0",
+    "/gulaari/chunk-BNOBUP6K.js": "e5d8c51c641c50fb5a7304082627a3e0870a52e5",
+    "/gulaari/index.html": "446d159340d3c31e70a7fed455e894a6fb33198f",
+    "/gulaari/main-JDZHZRVV.js": "c16f327343e0d5955999d1924608252a01106b9f",
     "/gulaari/polyfills-FFHMD2TL.js": "f49b49a155bc7d192db62a4c15d0a612b460a667",
     "/gulaari/scripts-PNW4UUTQ.js": "da509622bc8246d4f8010dd96c9a47caf038a1fe",
     "/gulaari/styles-Z2IDE6XP.css": "559fc8cd205241d038b1ac01f0156d2fa95871e6"
