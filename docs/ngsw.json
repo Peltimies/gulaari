@@ -1,0 +1,117 @@
+{
+  "configVersion": 1,
+  "timestamp": 1747725408352,
+  "index": "/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/chunk-3ZDLIPRQ.js",
+        "/chunk-URPZVWVK.js",
+        "/favicon.ico",
+        "/index.html",
+        "/main-UZPDOABE.js",
+        "/manifest.webmanifest",
+        "/polyfills-FFHMD2TL.js",
+        "/scripts-PNW4UUTQ.js",
+        "/styles-Z2IDE6XP.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/assets/aws.png",
+        "/images/add.svg",
+        "/images/clear-day.svg",
+        "/images/clear-night.svg",
+        "/images/cloudy.svg",
+        "/images/fog.svg",
+        "/images/hail.svg",
+        "/images/icons/icon-128x128.png",
+        "/images/icons/icon-144x144.png",
+        "/images/icons/icon-152x152.png",
+        "/images/icons/icon-192x192.png",
+        "/images/icons/icon-256x256.png",
+        "/images/icons/icon-32x32.png",
+        "/images/icons/icon-512x512.png",
+        "/images/install.svg",
+        "/images/partly-cloudy-day.svg",
+        "/images/partly-cloudy-night.svg",
+        "/images/rain.svg",
+        "/images/refresh.svg",
+        "/images/sleet.svg",
+        "/images/snow.svg",
+        "/images/thunderstorm.svg",
+        "/images/tornado.svg",
+        "/images/wind.svg"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/assets/aws.png": "b6651ab2f78f2556daa7aaf6abaa0f2ab6efa760",
+    "/chunk-3ZDLIPRQ.js": "47f78959d0748ac21312c3d9f0378acaeec4bad3",
+    "/chunk-URPZVWVK.js": "9fc060011c2b0f902924e5f8b545720320b438b7",
+    "/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
+    "/images/add.svg": "bfc98859a6ab4ef941f4a92cbfd2e197068a5c0b",
+    "/images/clear-day.svg": "e1b9d30e48daec11ccde841b2b6b5a300e17ed22",
+    "/images/clear-night.svg": "34f6de8fecbc523612976044459b83ac46df6afd",
+    "/images/cloudy.svg": "796500cc191d754a05791df9fc4a3cfc763c73ab",
+    "/images/fog.svg": "51a103472f302e1b812291a0b034eb1b91c7a773",
+    "/images/hail.svg": "1c52ba505c623e737f87c4bf85dc3e2f41246cdf",
+    "/images/icons/icon-128x128.png": "e6a13bb219a39e30243665f7d995e428a6b8dbb4",
+    "/images/icons/icon-144x144.png": "af4927a04c056a0755380c4f160fb3e5f0b69a5d",
+    "/images/icons/icon-152x152.png": "28eb7f712124e1e2ad97c51aab0db42211186639",
+    "/images/icons/icon-192x192.png": "53f09cef6c4b3220b1a87d0bc1a62a206cae0df9",
+    "/images/icons/icon-256x256.png": "a45cbf11874207c238259e9c3d4f1b3386f1364b",
+    "/images/icons/icon-32x32.png": "fbe17518c6d80ce0b1993bf81f8642265eb7add7",
+    "/images/icons/icon-512x512.png": "93ccfd7611f6968c8c670c96919b08b3be0a3e1f",
+    "/images/install.svg": "3fe472f88fea13b8d7632fbcc4076a06387af8ce",
+    "/images/partly-cloudy-day.svg": "551ff511f6e0d20f3d8e2fbbfe8b321f75bd72d2",
+    "/images/partly-cloudy-night.svg": "d00d24311fb97610b0cdf997f8e79924df0fb91d",
+    "/images/rain.svg": "6799555a4a156b308f537f6a2c86eef9ec20d340",
+    "/images/refresh.svg": "182198bb11f281945547dab1e26ce1f1fe107aa1",
+    "/images/sleet.svg": "c882ac123223e4f3db7ea2538086b1450fdff84a",
+    "/images/snow.svg": "e1f5de346e594e97af1eb87926076ba65d36811f",
+    "/images/thunderstorm.svg": "f759c930bd938cfa531ff83f94f657c11cb7e2f9",
+    "/images/tornado.svg": "0f06cc334f7677304abdbc9b1cfe9532ef29f109",
+    "/images/wind.svg": "73a9042188983c7ba55230c345cc257757ec09a3",
+    "/index.html": "13765cd8cdb38503e7055fa43dda938f96945233",
+    "/main-UZPDOABE.js": "9e5f93761b3a5215e1d2835ac48bee2d1ccfafa0",
+    "/manifest.webmanifest": "114590b8db1443104e1ea46a4a1eb7db849e4714",
+    "/polyfills-FFHMD2TL.js": "f49b49a155bc7d192db62a4c15d0a612b460a667",
+    "/scripts-PNW4UUTQ.js": "da509622bc8246d4f8010dd96c9a47caf038a1fe",
+    "/styles-Z2IDE6XP.css": "559fc8cd205241d038b1ac01f0156d2fa95871e6"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
